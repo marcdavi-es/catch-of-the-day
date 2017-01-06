@@ -13,8 +13,10 @@ class App extends React.Component {
 		super();
 		this.addFish = this.addFish.bind(this);
 		this.updateFish = this.updateFish.bind(this);
+		this.deleteFish = this.deleteFish.bind(this);
 		this.loadSamples = this.loadSamples.bind(this);
 		this.addToOrder = this.addToOrder.bind(this);
+		this.deleteFromOrder = this.deleteFromOrder.bind(this);
 		// initial state
 		this.state = {
 			fishes: {},
@@ -61,6 +63,12 @@ class App extends React.Component {
 		this.setState({ fishes })
 	}
 
+	deleteFish(key) {
+		const fishes = {...this.state.fishes};
+		fishes[key] = null; // a null value triggers the Firebase sync (rather than `delete fishes[key]`)
+		this.setState({ fishes })
+	}
+
 	loadSamples() {
 		this.setState({ fishes: sampleFishes });
 	}
@@ -68,6 +76,12 @@ class App extends React.Component {
 	addToOrder(key) {
 		const order = {...this.state.order}
 		order[key] = order[key] + 1 || 1;
+		this.setState({ order });
+	}
+
+	deleteFromOrder(key) {
+		const order = {...this.state.order}
+		order[key] = null;
 		this.setState({ order });
 	}
 
@@ -94,10 +108,12 @@ class App extends React.Component {
 					fishes={this.state.fishes}
 					order={this.state.order}
 					params={this.props.params}
+					deleteFromOrder={this.deleteFromOrder}
 				/>
 				<Inventory 
 					addFish={this.addFish} 
 					updateFish={this.updateFish}
+					deleteFish={this.deleteFish}
 					loadSamples={this.loadSamples}
 					fishes={this.state.fishes}
 				/> 
