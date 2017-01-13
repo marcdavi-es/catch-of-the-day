@@ -17,7 +17,10 @@ const Header = (props) => { // stateless function syntax
 		</header>
 	)
 }
-		
+
+Header.propTypes = {
+	tagline: React.PropTypes.string.isRequired
+}
 
 export default Header
 
