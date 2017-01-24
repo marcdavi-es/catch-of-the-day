@@ -20,7 +20,7 @@ const Header = (props) => { // stateless function syntax
 
 Header.propTypes = {
 	tagline: React.PropTypes.string.isRequired
-}
+};
 
 export default Header
 

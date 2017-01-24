@@ -2,6 +2,12 @@ import React from 'react';
 import { formatPrice } from '../helpers';
 
 class Fish extends React.Component {
+	static propTypes = {
+		details: React.PropTypes.object.isRequired,
+		addToOrder: React.PropTypes.func.isRequired,
+		index: React.PropTypes.string.isRequired
+	};
+
 	render() { 
 		const { details, addToOrder, index } = this.props;
 		const isAvailable = details.status === 'available';
@@ -23,12 +29,6 @@ class Fish extends React.Component {
 			</li>
 		)
 	}
-}
-
-Fish.propTypes = {
-	details: React.PropTypes.object.isRequired,
-	addToOrder: React.PropTypes.func.isRequired,
-	index: React.PropTypes.string.isRequired
 }
 
 export default Fish

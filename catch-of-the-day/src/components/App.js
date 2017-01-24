@@ -9,20 +9,15 @@ import base from '../base';
 import sampleFishes from '../sample-fishes';
 
 class App extends React.Component {
-	constructor() {
-		super();
-		this.addFish = this.addFish.bind(this);
-		this.updateFish = this.updateFish.bind(this);
-		this.deleteFish = this.deleteFish.bind(this);
-		this.loadSamples = this.loadSamples.bind(this);
-		this.addToOrder = this.addToOrder.bind(this);
-		this.deleteFromOrder = this.deleteFromOrder.bind(this);
-		// initial state
-		this.state = {
-			fishes: {},
-			order: {}
-		}
-	}
+
+	state = {
+		fishes: {},
+		order: {}
+	};
+
+	static propTypes = {
+		params: React.PropTypes.object.isRequired
+	};
 
 	componentWillMount() {
 		// create real time sync between React and Firebase :O !!!
@@ -47,43 +42,43 @@ class App extends React.Component {
 		localStorage.setItem(`order-${this.props.params.storeId}`, JSON.stringify(nextState.order))
 	}
 
-	addFish(fish) {
+	addFish = (fish) => {
 		// update our state
 		const fishes = {...this.state.fishes}; // create a fresh state, starting with the existing state
 		const timestamp = Date.now();
 		fishes[`fish-${timestamp}`] = fish; // add new fish
 		this.setState({ fishes }) // set state
-	}
+	};
 
-	updateFish(key, fish) {
+	updateFish = (key, fish) => {
 		const fishes = {
 			...this.state.fishes,
 			[key]: {...fish}
 		};
 		this.setState({ fishes })
-	}
+	};
 
-	deleteFish(key) {
+	deleteFish = (key) => {
 		const fishes = {...this.state.fishes};
 		fishes[key] = null; // a null value triggers the Firebase sync (rather than `delete fishes[key]`)
 		this.setState({ fishes })
-	}
+	};
 
-	loadSamples() {
+	loadSamples = () => {
 		this.setState({ fishes: sampleFishes });
-	}
+	};
 
-	addToOrder(key) {
+	addToOrder = (key) => {
 		const order = {...this.state.order}
 		order[key] = order[key] + 1 || 1;
 		this.setState({ order });
-	}
+	};
 
-	deleteFromOrder(key) {
+	deleteFromOrder = (key) => {
 		const order = {...this.state.order}
 		delete order[key];
 		this.setState({ order });
-	}
+	};
 
 	render() {
 		return ( 
@@ -121,10 +116,6 @@ class App extends React.Component {
 			</div>
 		)
 	}
-}
-
-App.propTypes = {
-	params: React.PropTypes.object.isRequired
 }
 
 export default App
